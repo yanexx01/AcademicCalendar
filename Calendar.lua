@@ -20,7 +20,7 @@ function Update()
     local daysInMonth = getDaysInMonth(year, month)
 
     SKIN:Bang("!HideMeterGroup", "Days")
-    SKIN:Bang("!HideMeterGroup", "Highlights")
+    -- SKIN:Bang("!HideMeterGroup", "Highlights")
     SKIN:Bang("!HideMeterGroup", "NoteIndicators")
     SKIN:Bang("!HideMeterGroup", "Weeks")
 
@@ -37,7 +37,7 @@ function drawDays(year, month, today, daysInMonth, firstDayOffset, now)
         local x = 45 + col * 30
         local y = 65 + row * 25
         local meterName = "Day" .. day
-        local highlightName = "Highlight" .. day
+        local highlightName = "HighlightDay" .. day
         local indicatorName = "NoteIndicator" .. day
 
         local vaultPath = "C:\\Users\\Lucky\\Documents\\Obsidian Vault\\daily-notes"
@@ -53,9 +53,8 @@ function drawDays(year, month, today, daysInMonth, firstDayOffset, now)
 
         SKIN:Bang('!SetOption', meterName, 'X', x)
         SKIN:Bang('!SetOption', meterName, 'Y', y)
-        local highlightName = "Highlight" .. day
         SKIN:Bang('!SetOption', highlightName, 'X', x - 13)
-        SKIN:Bang('!SetOption', highlightName, 'Y', y - 10)
+        SKIN:Bang('!SetOption', highlightName, 'Y', y)
         SKIN:Bang('!SetOption', meterName, 'FontColor',
             (day == today and month == now.month and year == now.year)
             and SKIN:GetVariable("TodayColor") or SKIN:GetVariable("FontColor"))
@@ -63,12 +62,10 @@ function drawDays(year, month, today, daysInMonth, firstDayOffset, now)
         SKIN:Bang('!SetOption', meterName, 'Group', 'Days')
         SKIN:Bang('!ShowMeter', meterName)
 
-        SKIN:Bang('!SetOption', highlightName, 'X', x - 12)
-        SKIN:Bang('!SetOption', highlightName, 'Y', y - 12)
         SKIN:Bang('!SetOption', highlightName, 'Group', 'Highlights')
 
-        SKIN:Bang('!SetOption', indicatorName, 'X', x - 10)
-        SKIN:Bang('!SetOption', indicatorName, 'Y', y + 10)
+        SKIN:Bang('!SetOption', indicatorName, 'X', x )
+        SKIN:Bang('!SetOption', indicatorName, 'Y', y + 21)
         SKIN:Bang('!SetOption', indicatorName, 'Group', 'NoteIndicators')
 
         if fileExists then
