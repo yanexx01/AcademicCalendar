@@ -34,7 +34,7 @@ function drawDays(year, month, today, daysInMonth, firstDayOffset, now)
         local index = (day - 1) + firstDayOffset
         local row = math.floor(index / 7)
         local col = index % 7
-        local x = 45 + col * 30
+        local x = 50 + col * 30
         local y = 65 + row * 25
         local meterName = "Day" .. day
         local highlightName = "HighlightDay" .. day
@@ -65,7 +65,7 @@ function drawDays(year, month, today, daysInMonth, firstDayOffset, now)
         SKIN:Bang('!SetOption', highlightName, 'Group', 'Highlights')
 
         SKIN:Bang('!SetOption', indicatorName, 'X', x )
-        SKIN:Bang('!SetOption', indicatorName, 'Y', y + 21)
+        SKIN:Bang('!SetOption', indicatorName, 'Y', y + 18)
         SKIN:Bang('!SetOption', indicatorName, 'Group', 'NoteIndicators')
 
         if fileExists then
@@ -87,7 +87,7 @@ function drawWeeks(year, month, daysInMonth, firstDayOffset)
             local acadWeek = getAcademicWeek(year, month, day)
             if acadWeek then
                 local weekMeter = "Week" .. (row + 1)
-                local x = 15
+                local x = 17                        --координаты
                 local y = 65 + row * 25
                 SKIN:Bang('!SetOption', weekMeter, 'X', x)
                 SKIN:Bang('!SetOption', weekMeter, 'Y', y)
@@ -132,7 +132,7 @@ function openDailyNote(y, m, d)
     if not f then
         f = io.open(fullPath, "w")
         if f then
-            f:write("# " .. string.format("%04d-%02d-%02d", y, m, d) .. "\n\n")
+            -- f:write("# " .. string.format("%04d-%02d-%02d", y, m, d) .. "\n\n")
             f:close()
         end
     else
