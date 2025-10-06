@@ -2,7 +2,7 @@
 # Календарь для Rainmeter
 
 <p align="center">
-  <img width="200" alt="cal-preview" src="assets/preview.png">
+  <img width="200" alt="cal-preview" src="assets/preview_new.png">
 </p>
 
 Простой календарь для Rainmeter с поддержкой учебных недель и интеграцией с Obsidian.
