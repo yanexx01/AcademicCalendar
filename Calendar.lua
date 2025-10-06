@@ -4,6 +4,35 @@ function Initialize()
     SKIN:Bang('!SetVariable', 'CURRENTMONTH', now.month)
 end
 
+function getNoteStatus(fullPath)
+    local f = io.open(fullPath, "r")
+    if not f then return nil end
+    local content = f:read("*a")
+    f:close()
+
+    local hasUnchecked = false
+    local hasChecked = false
+
+    for line in content:gmatch("[^\r\n]+") do
+        -- Убираем начальные пробелы
+        local trimmed = line:match("^%s*(.*)") or line
+        -- Проверяем чекбоксы с возможными пробелами внутри скобок
+        if trimmed:match("^%-%s*%[%s*%]") then
+            hasUnchecked = true
+        elseif trimmed:match("^%-%s*%[%s*[xX]%s*%]") then
+            hasChecked = true
+        end
+    end
+
+    if hasUnchecked then
+        return "incomplete"
+    elseif hasChecked then
+        return "complete"
+    else
+        return "nochecklist"
+    end
+end
+
 function Update()
     local now = os.date("*t")
     local year, month, today = now.year, now.month, now.day
@@ -69,6 +98,16 @@ function drawDays(year, month, today, daysInMonth, firstDayOffset, now)
         SKIN:Bang('!SetOption', indicatorName, 'Group', 'NoteIndicators')
 
         if fileExists then
+            local status = getNoteStatus(fullPath)
+            local color
+            if status == "incomplete" then
+                color = SKIN:GetVariable("NoteIncompleteColor")
+            elseif status == "complete" then
+                color = SKIN:GetVariable("NoteCompleteColor")
+            else -- "nochecklist"
+                color = SKIN:GetVariable("NoteNoChecklistColor")
+            end
+            SKIN:Bang('!SetOption', indicatorName, 'Shape', 'Rectangle -6,0,12,1 | Fill Color ' .. color .. ' | StrokeWidth 0')
             SKIN:Bang('!ShowMeter', indicatorName)
         else
             SKIN:Bang('!HideMeter', indicatorName)
