@@ -49,7 +49,6 @@ function Update()
     local daysInMonth = getDaysInMonth(year, month)
 
     SKIN:Bang("!HideMeterGroup", "Days")
-    -- SKIN:Bang("!HideMeterGroup", "Highlights")
     SKIN:Bang("!HideMeterGroup", "NoteIndicators")
     SKIN:Bang("!HideMeterGroup", "Weeks")
 
@@ -84,9 +83,16 @@ function drawDays(year, month, today, daysInMonth, firstDayOffset, now)
         SKIN:Bang('!SetOption', meterName, 'Y', y)
         SKIN:Bang('!SetOption', highlightName, 'X', x - 13)
         SKIN:Bang('!SetOption', highlightName, 'Y', y)
-        SKIN:Bang('!SetOption', meterName, 'FontColor',
-            (day == today and month == now.month and year == now.year)
-            and SKIN:GetVariable("TodayColor") or SKIN:GetVariable("FontColor"))
+        local isToday = (day == today and month == now.month and year == now.year)
+        local fontColor
+        if isToday then
+            fontColor = SKIN:GetVariable("TodayColor")
+        elseif col == 5 or col == 6 then
+            fontColor = SKIN:GetVariable("WeekendColor")
+        else
+            fontColor = SKIN:GetVariable("FontColor")
+        end
+        SKIN:Bang('!SetOption', meterName, 'FontColor', fontColor)
         SKIN:Bang('!SetOption', meterName, 'Text', tostring(day))
         SKIN:Bang('!SetOption', meterName, 'Group', 'Days')
         SKIN:Bang('!ShowMeter', meterName)
@@ -94,7 +100,7 @@ function drawDays(year, month, today, daysInMonth, firstDayOffset, now)
         SKIN:Bang('!SetOption', highlightName, 'Group', 'Highlights')
 
         SKIN:Bang('!SetOption', indicatorName, 'X', x )
-        SKIN:Bang('!SetOption', indicatorName, 'Y', y + 18)
+        SKIN:Bang('!SetOption', indicatorName, 'Y', y + 20)
         SKIN:Bang('!SetOption', indicatorName, 'Group', 'NoteIndicators')
 
         if fileExists then
